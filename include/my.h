@@ -16,6 +16,7 @@
 
 void my_putchar(char c);
 int my_isneg(int nb);
+char *my_itos(int nb);
 int my_put_unsigned_nbr(unsigned int nb);
 int my_put_nbr_base(int nb, char *base);
 int my_put_nbr_base_long(long long nb, char *base);

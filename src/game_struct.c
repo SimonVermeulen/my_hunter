@@ -34,6 +34,18 @@ sfVector2f get_random_pos(time_t t, sfRenderWindow *window)
     return (position);
 }
 
+sfText *init_text(char *str)
+{
+    sfFont *font = sfFont_createFromFile(FONT_PATH);
+    sfText *text = sfText_create();
+    sfText_setFont(text, font);
+    sfText_setString(text, str);
+    sfText_setColor(text, sfBlack);
+    sfText_setStyle(text, sfTextBold);
+    sfText_setPosition(text, (sfVector2f) {5, 550});
+    return (text);
+}
+
 game_t *init_game(int height, int width, char *name, int hp)
 {
     game_t *game_instance = NULL;
@@ -43,6 +55,7 @@ game_t *init_game(int height, int width, char *name, int hp)
     if (!game_instance)
         return (NULL);
     game_instance->window = init_window(window, height, width, name);
+    game_instance->score_text = init_text("0");
     game_instance->clock = sfClock_create();
     game_instance->frames_passed = 0;
     game_instance->seconds = 0;

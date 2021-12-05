@@ -11,6 +11,7 @@ SRC	=	my_compute_power_rec.c							\
 		my_getnbr.c										\
 		my_isneg.c										\
 		my_is_prime.c									\
+		my_itos.c										\
 		my_putchar.c									\
 		my_put_nbr.c									\
 		my_putstr.c										\

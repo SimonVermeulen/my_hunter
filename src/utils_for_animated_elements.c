@@ -26,38 +26,23 @@ animated_element_t *create_animated_element(sfIntRect rect,
     return (new_element);
 }
 
-animated_element_t *create_duck(sfVector2f position, sfVector2f speed, int hp)
-{
-    animated_element_t *new_duck = NULL;
-    sfIntRect rect = {0, 0, 100, 63};
-
-    new_duck = malloc(sizeof(animated_element_t));
-    if (!new_duck)
-        return (NULL);
-
-    new_duck->pos = position;
-    new_duck->speed = speed;
-    new_duck->rect = rect;
-    new_duck->hp = hp;
-
-    return (new_duck);
-}
-
 int set_pos(to_display_t *element, game_t *game)
 {
     animated_element_t *animated = element->animated_element;
     sfVector2u win_size = sfRenderWindow_getSize(game->window);
     float speed[2] = {0, 0};
+    float ratio_x = (float)(win_size.x) / DEFAULT_W;
+    float ratio_y = (float)(win_size.y) / DEFAULT_H;
 
     speed[0] = animated->speed.y;
-    speed[1] = animated->speed.x + (game->score / 5 * 2);
-    if (speed[1] > 20)
-        speed[1] = 20;
+    speed[1] = animated->speed.x + (game->score / 5 * 4);
+    if (speed[1] > MAX_SPEED)
+        speed[1] = MAX_SPEED;
 
     animated->pos.y += speed[0];
     animated->pos.x += speed[1];
-
-    if (animated->pos.x <= win_size.x && animated->pos.y <= win_size.y) {
+    if (animated->pos.x * ratio_x <= win_size.x &&
+        animated->pos.y * ratio_y <= win_size.y) {
         sfSprite_setPosition(element->sprite, animated->pos);
         return (0);
     }
@@ -72,9 +57,9 @@ void move_rect(to_display_t *element)
         animated->rect.left += animated->rect.width;
         if (animated->rect.left >= 200)
             animated->rect.left = 0;
-    } else {
+    } else if (!animated->hp) {
         animated->rect.left = 300;
-        animated->speed.y = 40;
+        animated->speed.y = 60;
     }
     sfSprite_setTextureRect(element->sprite, animated->rect);
 }
@@ -83,12 +68,10 @@ void move_animated_elements(display_list_t *list, game_t *game)
 {
     animated_element_t *animated = NULL;
     to_display_t *current = list->head;
-    sfSprite *sprite = NULL;
     int error = 0;
 
     for (int index = 0; current; index++) {
         if (current->animated_element) {
-            sprite = current->sprite;
             animated = current->animated_element;
             move_rect(current);
             error = set_pos(current, game);

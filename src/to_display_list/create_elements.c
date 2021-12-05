@@ -63,6 +63,7 @@ display_list_t *init_list(animated_element_t *animated_element,
     if (!list || !path)
         return (NULL);
     element = init_element(animated_element, path);
+    element->is_active = 0;
 
     list->head = element;
     list->nb_elements = 1;

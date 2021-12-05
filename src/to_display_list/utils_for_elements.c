@@ -35,7 +35,7 @@ void display_active_nodes(display_list_t *list, sfRenderWindow *window)
     to_display_t *current = list->head;
 
     while (current) {
-        if (current->is_active == 1) 
+        if (current->is_active == 1)
             sfRenderWindow_drawSprite(window, current->sprite, NULL);
         current = current->next;
     }
