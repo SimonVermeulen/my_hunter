@@ -5,13 +5,14 @@
 ## Makefile
 ##
 
-SRC	=	to_display_list/utils_for_elements.c	\
-		to_display_list/create_elements.c		\
-		to_display_list/delete_elements.c		\
-		utils_for_animated_elements.c			\
-		game_struct.c							\
-		my_hunter.c								\
-		main_loop.c
+SRC	=	src/to_display_list/utils_for_elements.c	\
+		src/to_display_list/create_elements.c		\
+		src/to_display_list/delete_elements.c		\
+		src/utils_for_animated_elements.c			\
+		src/event_handling.c						\
+		src/game_struct.c							\
+		src/my_hunter.c								\
+		src/main_loop.c
 
 OBJ	=	$(SRC:.c=.o)
 

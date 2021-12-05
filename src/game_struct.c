@@ -5,8 +5,8 @@
 ** structure containing usefull functions for game_struct
 */
 
-#include "include/my_hunter.h"
-#include "include/my.h"
+#include "../include/my_hunter.h"
+#include "../include/my.h"
 #include <stdlib.h>
 
 sfRenderWindow *init_window(sfRenderWindow *window, int height, int width,
@@ -22,11 +22,13 @@ sfRenderWindow *init_window(sfRenderWindow *window, int height, int width,
 
 sfVector2f get_random_pos(time_t t, sfRenderWindow *window)
 {
-    int random_y = 0;
+    sfVector2u win_size = sfRenderWindow_getSize(window);
     sfVector2f position = {-DUCK_WIDTH, 0};
+    unsigned int test = win_size.y - DEFAULT_H;
+    int random_y = 0;
 
     srand((unsigned) time(&t));
-    random_y = rand() % (DEFAULT_HEIGHT - DUCK_HEIGHT);
+    random_y = rand() % (DEFAULT_H - DUCK_HEIGHT);
     position.y = (float) random_y;
 
     return (position);
@@ -45,6 +47,14 @@ game_t *init_game(int height, int width, char *name, int hp)
     game_instance->frames_passed = 0;
     game_instance->seconds = 0;
     game_instance->score = 0;
-    game_instance->hp = 0;
+    game_instance->pause = 0;
     game_instance->event;
+    game_instance->hp = hp;
+}
+
+void destroy_game_instance(game_t *game)
+{
+    sfClock_destroy(game->clock);
+    sfText_destroy(game->score_text);
+    sfRenderWindow_destroy(game->window);
 }

@@ -11,9 +11,10 @@
 #ifndef MY_HUNTER_H_
     #define MY_HUNTER_H_
 
-    #define DESC_STR    "My_hunter: the user need to left click on ducks to kill them and earn points, good luck\n"
-    #define DEFAULT_WIDTH   800
-    #define DEFAULT_HEIGHT  600
+    #define DESC_STR    "My_hunter: the user need to left click on ducks"
+    #define DESCT_STR_2 "to kill them and earn points, good luck\n"
+    #define DEFAULT_W   800
+    #define DEFAULT_H  600
 
     #define DUCK_PATH       "./ressources/img/ducks.png"
     #define BACKGROUND_PATH "./ressources/img/background.png"
@@ -22,22 +23,29 @@
     #define DUCK_WIDTH 100
     #define DUCK_SPEED 12
 
-    #define CHECK_ERROR_WIDTH(width) (width == 0) ? DEFAULT_WIDTH : width
-    #define CHECK_ERROR_HEIGHT(height) (height == 0) ? DEFAULT_HEIGHT : height
+    #define CHECK_ERROR_WIDTH(width) (width == 0) ? DEFAULT_W : width
+    #define CHECK_ERROR_HEIGHT(height) (height == 0) ? DEFAULT_H : height
+
+    #define GET_OFFSET_H(h) (h > DEFAULT_H) ? h - DEFAULT_H : DEFAULT_H - h;
+    #define GET_OFFSET_W(w) (w > DEFAULT_W) ? w - DEFAULT_W : DEFAULT_W - w;
 
 struct game_instance {
     sfRenderWindow *window;
+    sfText *score_text;
     int frames_passed;
     sfClock *clock;
     float seconds;
     sfEvent event;
+    int pause;
     int score;
     int hp;
 } typedef game_t;
 
+sfVector2f get_random_pos(time_t t, sfRenderWindow *window);
+
 game_t *init_game(int height, int width, char *name, int hp);
 
-sfVector2f get_random_pos(time_t t, sfRenderWindow *window);
+void destroy_game_instance(game_t *game);
 
 int launch_game();
 
@@ -71,9 +79,11 @@ animated_element_t *create_animated_element(sfIntRect rect,
 
 animated_element_t *create_duck(sfVector2f position, sfVector2f speed, int hp);
 
-int set_pos(to_display_t *element, sfRenderWindow *window);
+int set_pos(to_display_t *element, game_t *game);
 
 void move_rect(to_display_t *element);
+
+//EVENTS;
 
 void check_hitbox(game_t *game, display_list_t *list);
 
@@ -89,9 +99,7 @@ void add_element(animated_element_t *animated_element, display_list_t *list,
 
 //UTILS FOR ELEMENTS
 
-void display_active_nodes(display_list_t *list, sfRenderWindow *window,
-    void (*draw_sprite)(sfRenderWindow *, const sfSprite *,
-    const sfRenderStates *));
+void display_active_nodes(display_list_t *list, sfRenderWindow *window);
 
 to_display_t *get_from_index(display_list_t *list, unsigned int index);
 

@@ -5,7 +5,7 @@
 ** functions to delete elements/list
 */
 
-#include "../include/my_hunter.h"
+#include "../../include/my_hunter.h"
 #include <stdlib.h>
 
 void free_element(to_display_t *element)
