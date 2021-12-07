@@ -52,7 +52,7 @@ game_t *init_game(int height, int width, char *name, int hp);
 
 void destroy_game_instance(game_t *game);
 
-int launch_game();
+int launch_game(void);
 
 //EVENTS
 
@@ -68,13 +68,13 @@ struct animated_element {
     int hp;
 } typedef animated_element_t;
 
-struct to_display {
+typedef struct to_display {
     animated_element_t *animated_element;
     sfTexture *texture;
     sfSprite *sprite;
     int is_active;
     struct to_display *next;
-} typedef to_display_t;
+} to_display_t;
 
 struct to_display_list {
     to_display_t *head;

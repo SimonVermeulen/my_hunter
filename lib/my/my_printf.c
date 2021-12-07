@@ -28,6 +28,12 @@ int search_for_prefix(char c)
     return (0);
 }
 
+void print_wrong_flag(const char *format, int index)
+{
+    my_putchar('%');
+    my_putchar(format[index]);
+}
+
 int check_flags(const char *format, va_list ap, int index)
 {
     int (*my_printf_farray[12])(va_list ap, char *arguments) =
@@ -42,13 +48,12 @@ int check_flags(const char *format, va_list ap, int index)
     for (; search_for_prefix(format[index]); index++, prefix++);
     flag_index = search_for_flags(format[index]);
     if (flag_index != -1) {
-        if (prefix == 0)
+        if (!prefix)
             my_printf_farray[flag_index](ap, NULL);
         else
             my_printf_farray[flag_index](ap, my_strdup("#"));
     } else {
-        my_putchar('%');
-        my_putchar(format[index]);
+        print_wrong_flag(format, index);
     }
     return (index);
 }

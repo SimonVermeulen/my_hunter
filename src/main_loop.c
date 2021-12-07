@@ -79,7 +79,7 @@ int launch_game(void)
     time_t t;
 
     sfRenderWindow_setFramerateLimit(game->window, 60);
-    while (sfRenderWindow_isOpen(game->window) && game->hp) {
+    while (sfRenderWindow_isOpen(game->window) && game->hp && list) {
         while (sfRenderWindow_pollEvent(game->window, &game->event))
             check_events(game, list);
         handle_clock_events(game, list, t);
@@ -87,7 +87,8 @@ int launch_game(void)
         game->hp = (game->hp > 5) ? 5 : game->hp;
     }
     print_end_message(game);
-    destroy_list(list->head);
+    if (list)
+        destroy_list(list->head);
     destroy_game_instance(game);
     return EXIT_SUCCESS;
 }

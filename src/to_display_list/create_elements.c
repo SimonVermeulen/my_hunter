@@ -20,7 +20,7 @@ to_display_t *init_element(animated_element_t *animated_element, char *path)
     new_element->texture = sfTexture_createFromFile(path, NULL);
     if (!new_element->texture) {
         write(1, "Make sure to launch the game from its directory!\n", 50);
-        exit(84);
+        return (NULL);
     }
     new_element->sprite = sfSprite_create();
     new_element->is_active = 1;
@@ -38,6 +38,8 @@ void add_element(animated_element_t *animated_element, display_list_t *list,
     to_display_t *new_element = NULL;
 
     new_element = init_element(animated_element, path);
+    if (!new_element)
+        return;
     if (!index) {
         index_element = get_from_index(list, index);
         new_element->next = index_element;
@@ -63,6 +65,8 @@ display_list_t *init_list(animated_element_t *animated_element,
     if (!list || !path)
         return (NULL);
     element = init_element(animated_element, path);
+    if (!element)
+        return (NULL);
     element->is_active = 0;
 
     list->head = element;

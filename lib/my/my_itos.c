@@ -10,5 +10,5 @@
 char *my_itos(int nb)
 {
     char *str = my_convert_base(nb, "0123456789");
-    return (str);    
+    return (str);
 }
